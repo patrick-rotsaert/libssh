@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3.0)
-cmake_policy(SET CMP0048 NEW)
+# cmake_policy(SET CMP0048 NEW)
 
 # Specify search path for CMake modules to be loaded by include()
 # and find_package()
@@ -58,7 +58,7 @@ elseif(WITH_MBEDTLS)
       message(FATAL_ERROR "Could not find mbedTLS")
     endif (NOT MBEDTLS_FOUND)
 else (WITH_GCRYPT)
-  find_package(OpenSSL 1.0.1)
+  find_package(OpenSSL)
   if (OPENSSL_FOUND)
     # On CMake < 3.16, OPENSSL_CRYPTO_LIBRARIES is usually a synonym for OPENSSL_CRYPTO_LIBRARY, but is not defined
     # when building on Windows outside of Cygwin. We provide the synonym here, if FindOpenSSL didn't define it already.
@@ -103,7 +103,7 @@ if (WITH_NACL)
     endif (NOT NACL_FOUND)
 endif (WITH_NACL)
 
-find_package(Argp)
+# find_package(Argp)
 
 # Disable symbol versioning in non UNIX platforms
 if (UNIX)
@@ -216,10 +216,10 @@ endif (WITH_SYMBOL_VERSIONING AND ABIMAP_FOUND)
 
 add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source DEPENDS ${_SYMBOL_TARGET} VERBATIM)
 
-# Link compile database for clangd
-execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-                "${CMAKE_BINARY_DIR}/compile_commands.json"
-                "${CMAKE_SOURCE_DIR}/compile_commands.json")
+# # Link compile database for clangd
+# execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+#                 "${CMAKE_BINARY_DIR}/compile_commands.json"
+#                 "${CMAKE_SOURCE_DIR}/compile_commands.json")
 
 message(STATUS "********************************************")
 message(STATUS "********** ${PROJECT_NAME} build options : **********")
